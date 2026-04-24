@@ -123,7 +123,7 @@ python -m pyserini.search.faiss \
         --encoder $model \
         --encoder-class qwen3 \
         --index ./indexes/bright/faiss-flat.bright-${dataset_name}.${model_name} \
-        --query-prefix "Instruct: ${instruction}."$'\n'"Query: " \
+        --query-prefix "Instruct: ${instruction}"$'\n'"Query: " \
         --topics bright-${dataset_name}-original \
         --output ./runs/bright/run.bright-${dataset_name}.${model_name}.txt \
         --hits 1000 \
@@ -174,3 +174,4 @@ pony                                               | 0.1216
 ```
 
 ## Reproduction Log[*](reproducibility.md)
++ Results reproduced by [@h79yan](https://github.com/h79yan) on 2026-04-15 (commit [`a8ec37d`](https://github.com/castorini/pyserini/commit/a8ec37db726ef7ba094627f1fe778ab881495015))

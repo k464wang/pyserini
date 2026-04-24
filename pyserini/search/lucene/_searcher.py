@@ -38,6 +38,10 @@ logger = logging.getLogger(__name__)
 JSimpleSearcher = autoclass('io.anserini.search.SimpleSearcher')
 
 
+def _reader_has_term_vectors(reader) -> bool:
+    return reader.termVectors().get(0) is not None
+
+
 class LuceneSearcher:
     """Wrapper class for ``SimpleSearcher`` in Anserini.
 
@@ -482,7 +486,7 @@ class LuceneSearcher:
             self.rm3 = RM3Reranker(fb_terms=fb_terms, fb_docs=fb_docs, original_query_weight=original_query_weight)
             return
         
-        if self.object.reader.getTermVectors(0):
+        if _reader_has_term_vectors(self.object.reader):
             self.object.set_rm3(None, fb_terms, fb_docs, original_query_weight, debug, filter_terms)
         elif self.prebuilt_index_name in ['msmarco-v1-passage', 'msmarco-v1-doc', 'msmarco-v1-doc-segmented']:
             self.object.set_rm3('JsonCollection', fb_terms, fb_docs, original_query_weight, debug, filter_terms)
@@ -538,7 +542,7 @@ class LuceneSearcher:
                                     alpha, beta, gamma)
             return
         
-        if self.object.reader.getTermVectors(0):
+        if _reader_has_term_vectors(self.object.reader):
             self.object.set_rocchio(None, top_fb_terms, top_fb_docs, bottom_fb_terms, bottom_fb_docs,
                                     alpha, beta, gamma, debug, use_negative)
         elif self.prebuilt_index_name in ['msmarco-v1-passage', 'msmarco-v1-doc', 'msmarco-v1-doc-segmented']:
