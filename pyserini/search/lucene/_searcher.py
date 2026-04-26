@@ -480,7 +480,7 @@ class LuceneSearcher:
         if use_python:
             self.object.unset_rm3()
             
-            if not self.object.reader.getTermVectors(0):
+            if not _reader_has_term_vectors(self.object.reader):
                 raise TypeError("RM3 is not supported for indexes without document vectors (Python mode).")
 
             self.rm3 = RM3Reranker(fb_terms=fb_terms, fb_docs=fb_docs, original_query_weight=original_query_weight)
@@ -535,7 +535,7 @@ class LuceneSearcher:
         if use_python:
             self.object.unset_rocchio()
 
-            if not self.object.reader.getTermVectors(0):
+            if not _reader_has_term_vectors(self.object.reader):
                 raise TypeError("Rocchio is not supported for indexes without document vectors (Python mode).")
             
             self.rocchio = RocchioReranker(top_fb_docs, top_fb_terms, bottom_fb_docs, bottom_fb_terms, 
